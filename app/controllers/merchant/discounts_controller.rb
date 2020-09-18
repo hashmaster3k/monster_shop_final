@@ -4,7 +4,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def new
-    @item = Item.find(params[:item])
+    @item = Item.find(params[:item_id])
     @discount = Discount.new(item_id: @item.id)
   end
 
@@ -16,6 +16,8 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash[:success] = "Discount for #{item.name} now active!"
       redirect_to merchant_discounts_path
     else
+      flash[:error] = "One or both fields was blank"
+      redirect_to new_merchant_discount_path(item_id: discount_params[:item_id])
     end
   end
 

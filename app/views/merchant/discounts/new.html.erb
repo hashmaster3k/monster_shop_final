@@ -5,7 +5,7 @@
   <%= f.number_field :discount_percent, max: 100, min: 1 %><br><br>
 
   <%= f.label :minimum_quantity %><br>
-  <%= f.number_field :minimum_quantity %><br><br>
+  <%= f.number_field :minimum_quantity, min: 1 %><br><br>
 
   <%= f.hidden_field :item_id, value: @item.id %>
 

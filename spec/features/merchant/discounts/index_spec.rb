@@ -94,5 +94,19 @@ RSpec.describe 'DISCOUNT PORTAL INDEX PAGE' do
         expect(page).to have_content("5.0% on 10 or more items")
       end
     end
+
+    it 'cannot create a discount without filling in all fields' do
+      visit '/merchant/discounts'
+
+      within "#item-#{@chain.id}" do
+        click_link "add discount"
+      end
+
+      fill_in :discount_discount_percent, with: ""
+      fill_in :discount_minimum_quantity, with: 10
+      click_button 'Create Discount'
+
+      expect(page).to have_content("One or both fields was blank")
+    end
   end
 end

@@ -6,7 +6,7 @@
     <ul>
       <li>Inventory: <%= item.inventory %></li>
       <li>Price: $<%= item.price %></li>
-      <li>Active discounts - <%= link_to 'add discount', new_merchant_discount_path(item: item.id) %></li>
+      <li>Active discounts - <%= link_to 'add discount', new_merchant_discount_path(item_id: item.id) %></li>
       <ul>
         <% if item.discounts.length > 0 %>
           <% item.discounts.each do |discount| %>
