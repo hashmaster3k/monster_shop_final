@@ -1,0 +1,13 @@
+<h1><%= @item.name %> Discount Creation</h1>
+
+<%= form_for @discount, url: '/merchant/discounts' do |f| %>
+  <%= f.label :discount_percent %><br>
+  <%= f.number_field :discount_percent, max: 100, min: 1 %><br><br>
+
+  <%= f.label :minimum_quantity %><br>
+  <%= f.number_field :minimum_quantity %><br><br>
+
+  <%= f.hidden_field :item_id, value: @item.id %>
+
+  <%= f.submit %>
+<% end %>

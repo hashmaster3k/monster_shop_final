@@ -72,8 +72,26 @@ RSpec.describe 'DISCOUNT PORTAL INDEX PAGE' do
 
       within "#item-#{@chain.id}" do
         click_link "add discount"
+      end
 
-        expect(current_path).to eq("/merchant/discounts/new")
+      expect(current_path).to eq("/merchant/discounts/new")
+      expect(page).to have_content("#{@chain.name} Discount Creation")
+      expect(page).to have_content("Discount percent")
+      expect(page).to have_content("Minimum quantity")
+
+      fill_in :discount_discount_percent, with: 5
+      fill_in :discount_minimum_quantity, with: 10
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts')
+      expect(page).to have_content("Discount for #{@chain.name} now active!")
+
+      within "#item-#{@chain.id}" do
+        expect(page).to have_content("Item ##{@chain.id} - #{@chain.name}")
+        expect(page).to have_content("Inventory: #{@chain.inventory}")
+        expect(page).to have_content("Price: $#{@chain.price}")
+        expect(page).to have_content("Active discounts")
+        expect(page).to have_content("5.0% on 10 or more items")
       end
     end
   end

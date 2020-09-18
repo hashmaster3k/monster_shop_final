@@ -6,9 +6,15 @@
     <ul>
       <li>Inventory: <%= item.inventory %></li>
       <li>Price: $<%= item.price %></li>
-      <li>Active discounts - <%= link_to 'add discount', new_merchant_discount_path %></li>
+      <li>Active discounts - <%= link_to 'add discount', new_merchant_discount_path(item: item.id) %></li>
       <ul>
-        <li>no active discounts</li>
+        <% if item.discounts.length > 0 %>
+          <% item.discounts.each do |discount| %>
+            <li><%= discount.discount_percent %>% on <%= discount.minimum_quantity %> or more items</li>
+          <% end %>
+        <% else %>
+          <li>no active discounts</li>
+        <% end %>
       </ul>
     </ul>
   </div>
