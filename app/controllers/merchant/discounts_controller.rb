@@ -21,6 +21,12 @@ class Merchant::DiscountsController < Merchant::BaseController
     end
   end
 
+  def destroy
+    Discount.destroy(params[:id])
+    flash[:success] = 'Discount successfully removed'
+    redirect_to merchant_discounts_path
+  end
+
   private
   def discount_params
     params.require(:discount).permit(:discount_percent, :minimum_quantity, :item_id)

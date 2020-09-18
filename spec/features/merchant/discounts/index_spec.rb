@@ -43,7 +43,6 @@ RSpec.describe 'DISCOUNT PORTAL INDEX PAGE' do
         expect(page).to have_content("Price: $#{@tire.price}")
         expect(page).to have_content("Active discounts")
         expect(page).to have_content("no active discounts")
-
       end
 
       within "#item-#{@chain.id}" do

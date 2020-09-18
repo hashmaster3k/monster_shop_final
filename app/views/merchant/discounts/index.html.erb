@@ -10,7 +10,7 @@
       <ul>
         <% if item.discounts.length > 0 %>
           <% item.discounts.each do |discount| %>
-            <li><%= discount.discount_percent %>% on <%= discount.minimum_quantity %> or more items</li>
+            <li><%= discount.discount_percent %>% on <%= discount.minimum_quantity %> or more items - <%= link_to 'delete discount', merchant_discount_path(discount.id), method: :delete %></li>
           <% end %>
         <% else %>
           <li>no active discounts</li>
