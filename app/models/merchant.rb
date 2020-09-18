@@ -32,4 +32,8 @@ class Merchant < ApplicationRecord
   def order_items_by_order(order_id)
     order_items.where(order_id: order_id)
   end
+
+  def self.active_items_by_merchant_id(id)
+    find(id).items.active_items
+  end
 end

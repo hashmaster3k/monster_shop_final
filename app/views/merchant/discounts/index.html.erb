@@ -1,0 +1,15 @@
+<h1>My Items Discount Portal</h1>
+
+<% @items.each do |item| %>
+  <div id="item-<%= item.id %>">
+    <h3>Item #<%= item.id %> - <%= item.name %></h3>
+    <ul>
+      <li>Inventory: <%= item.inventory %></li>
+      <li>Price: $<%= item.price %></li>
+      <li>Active discounts - <%= link_to 'add discount', new_merchant_discount_path %></li>
+      <ul>
+        <li>no active discounts</li>
+      </ul>
+    </ul>
+  </div>
+<% end %>
