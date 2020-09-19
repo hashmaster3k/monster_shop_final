@@ -30,4 +30,16 @@ class Item < ApplicationRecord
   def average_rating
     reviews.average(:rating)
   end
+
+  def has_applicable_discount(quantity)
+    discounts.where("#{quantity} >= minimum_quantity").length > 0
+  end
+
+  def apply_applicable_discount(quantity, price)
+    ((get_applicable_discount(quantity).discount_percent / 100) * price) * quantity
+  end
+
+  def get_applicable_discount(quantity)
+    discounts.where("minimum_quantity <= #{quantity}").order(minimum_quantity: :desc).first
+  end
 end

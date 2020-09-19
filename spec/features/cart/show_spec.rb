@@ -8,7 +8,7 @@ RSpec.describe 'Cart Show Page' do
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 10 )
     end
 
     describe 'I can see my cart' do
@@ -26,21 +26,19 @@ RSpec.describe 'Cart Show Page' do
 
         within "#item-#{@ogre.id}" do
           expect(page).to have_link(@ogre.name)
-          expect(page).to have_content("Price: #{number_to_currency(@ogre.price)}")
-          expect(page).to have_content("Quantity: 1")
-          expect(page).to have_content("Subtotal: #{number_to_currency(@ogre.price * 1)}")
-          expect(page).to have_content("Sold by: #{@megan.name}")
-          expect(page).to have_css("img[src*='#{@ogre.image}']")
+          expect(page).to have_content("#{number_to_currency(@ogre.price)}")
+          expect(page).to have_content("1")
+          expect(page).to have_content("#{number_to_currency(@ogre.price * 1)}")
+          expect(page).to have_content("#{@megan.name}")
           expect(page).to have_link(@megan.name)
         end
 
         within "#item-#{@hippo.id}" do
           expect(page).to have_link(@hippo.name)
-          expect(page).to have_content("Price: #{number_to_currency(@hippo.price)}")
-          expect(page).to have_content("Quantity: 2")
-          expect(page).to have_content("Subtotal: #{number_to_currency(@hippo.price * 2)}")
-          expect(page).to have_content("Sold by: #{@brian.name}")
-          expect(page).to have_css("img[src*='#{@hippo.image}']")
+          expect(page).to have_content("#{number_to_currency(@hippo.price)}")
+          expect(page).to have_content("2")
+          expect(page).to have_content("#{number_to_currency(@hippo.price * 2)}")
+          expect(page).to have_content("#{@brian.name}")
           expect(page).to have_link(@brian.name)
         end
       end
@@ -103,12 +101,12 @@ RSpec.describe 'Cart Show Page' do
         visit '/cart'
 
         within "#item-#{@hippo.id}" do
-          click_button('More of This!')
+          click_button('+')
         end
 
         expect(current_path).to eq('/cart')
         within "#item-#{@hippo.id}" do
-          expect(page).to have_content('Quantity: 3')
+          expect(page).to have_content('3')
         end
       end
 
@@ -119,11 +117,25 @@ RSpec.describe 'Cart Show Page' do
         click_button 'Add to Cart'
         visit item_path(@hippo)
         click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
+        visit item_path(@hippo)
+        click_button 'Add to Cart'
 
         visit '/cart'
 
         within "#item-#{@hippo.id}" do
-          expect(page).to_not have_button('More of This!')
+          expect(page).to_not have_button('+')
         end
 
         visit "/items/#{@hippo.id}"
@@ -144,12 +156,12 @@ RSpec.describe 'Cart Show Page' do
         visit '/cart'
 
         within "#item-#{@hippo.id}" do
-          click_button('Less of This!')
+          click_button('-')
         end
 
         expect(current_path).to eq('/cart')
         within "#item-#{@hippo.id}" do
-          expect(page).to have_content('Quantity: 2')
+          expect(page).to have_content('2')
         end
       end
 
@@ -160,12 +172,68 @@ RSpec.describe 'Cart Show Page' do
         visit '/cart'
 
         within "#item-#{@hippo.id}" do
-          click_button('Less of This!')
+          click_button('-')
         end
 
         expect(current_path).to eq('/cart')
         expect(page).to_not have_content("#{@hippo.name}")
         expect(page).to have_content("Cart: 0")
+      end
+    end
+
+    it 'can see added savings once hitting quantity' do
+      Discount.create!(item_id: @hippo.id,
+                       discount_percent: 5,
+                       minimum_quantity: 5)
+
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+
+      visit '/cart'
+
+      within "#item-#{@hippo.id}" do
+        expect(page).to have_content('$50.0')
+        click_button('+')
+        expect(page).to have_content('$100.0')
+        click_button('+')
+        expect(page).to have_content('$150.0')
+        click_button('+')
+        expect(page).to have_content('$200.0')
+        click_button('+')
+        expect(page).to have_content('$237.5')
+        expect(page).to have_content('Applied savings discount!')
+      end
+    end
+
+    it 'will add the best suited discount' do
+      Discount.create!(item_id: @hippo.id,
+                       discount_percent: 5,
+                       minimum_quantity: 5)
+      Discount.create!(item_id: @hippo.id,
+                       discount_percent: 10,
+                       minimum_quantity: 6)
+      Discount.create!(item_id: @hippo.id,
+                       discount_percent: 11,
+                       minimum_quantity: 7)
+
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+
+      visit '/cart'
+
+      within "#item-#{@hippo.id}" do
+        expect(page).to have_content('$50.0')
+        click_button('+')
+        expect(page).to have_content('$100.0')
+        click_button('+')
+        expect(page).to have_content('$150.0')
+        click_button('+')
+        expect(page).to have_content('$200.0')
+        click_button('+')
+        expect(page).to have_content('$237.5')
+        click_button('+')
+        expect(page).to have_content('$270.0')
+        expect(page).to have_content('Applied savings discount!')
       end
     end
   end

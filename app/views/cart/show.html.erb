@@ -11,7 +11,7 @@
       <th>Subtotal</th>
     </tr>
     <% cart.items.each do |item,quantity| %>
-      <tr id= "cart-item-<%=item.id%>">
+    <tr id= "item-<%=item.id%>">
         <td><%= link_to item.name, "/items/#{item.id}" %></td>
         <td><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></td>
         <td><%= number_to_currency(item.price) %></td>
@@ -25,7 +25,14 @@
             <%= button_to 'Remove', "/cart/#{item.id}", method: :delete %>
           </div>
         </td>
-        <td><%= number_to_currency(cart.subtotal_of(item.id)) %></td>
+        <td>
+          <% if item.has_applicable_discount(cart.count_of(item.id)) %>
+            $<%= cart.subtotal_of(item.id) - item.apply_applicable_discount(cart.count_of(item.id), item.price) %>
+            <br>Applied savings discount!
+          <% else %>
+            <%= number_to_currency(cart.subtotal_of(item.id)) %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
     <tr>
