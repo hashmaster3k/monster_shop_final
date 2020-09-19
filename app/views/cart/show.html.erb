@@ -27,8 +27,8 @@
         </td>
         <td>
           <% if item.has_applicable_discount(cart.count_of(item.id)) %>
-            $<%= cart.subtotal_of(item.id) - item.apply_applicable_discount(cart.count_of(item.id), item.price) %>
-            <br>Applied savings discount!
+            $<%= number_with_precision(item.display_subtotal_with_discount(cart.count_of(item.id), item.price), precision: 2) %>
+            <br>Saved <%= item.applicable_discount(cart.count_of(item.id)).discount_percent %>% on this item!
           <% else %>
             <%= number_to_currency(cart.subtotal_of(item.id)) %>
           <% end %>

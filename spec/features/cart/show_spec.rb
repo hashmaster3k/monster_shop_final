@@ -188,6 +188,8 @@ RSpec.describe 'Cart Show Page' do
 
       visit item_path(@hippo)
       click_button 'Add to Cart'
+      visit item_path(@giant)
+      click_button 'Add to Cart'
 
       visit '/cart'
 
@@ -201,8 +203,10 @@ RSpec.describe 'Cart Show Page' do
         expect(page).to have_content('$200.0')
         click_button('+')
         expect(page).to have_content('$237.5')
-        expect(page).to have_content('Applied savings discount!')
+        expect(page).to have_content('Saved 5.0% on this item!')
       end
+
+      expect(page).to have_content("Total: $287.50")
     end
 
     it 'will add the best suited discount' do
@@ -217,6 +221,8 @@ RSpec.describe 'Cart Show Page' do
                        minimum_quantity: 7)
 
       visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@giant)
       click_button 'Add to Cart'
 
       visit '/cart'
@@ -233,8 +239,11 @@ RSpec.describe 'Cart Show Page' do
         expect(page).to have_content('$237.5')
         click_button('+')
         expect(page).to have_content('$270.0')
-        expect(page).to have_content('Applied savings discount!')
+        expect(page).to have_content('Saved 10.0% on this item!')
       end
+
+      expect(page).to have_content("Total: $320.00")
+
     end
   end
 end
