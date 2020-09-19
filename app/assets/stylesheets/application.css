@@ -18,3 +18,27 @@ img {
   width: 10%;
   height: 20%;
 }
+
+.cart-items {
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  border: solid;
+  border-width: 1px 0;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+}
+
+.cart-buttons-row-1 {
+  display: flex;
+  justify-content: center;
+}
