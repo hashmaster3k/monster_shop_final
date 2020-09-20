@@ -43,6 +43,12 @@ RSpec.describe Cart do
       expect(@cart.grand_total).to eq(120)
     end
 
+    it '.grand_total with discounts' do
+      @hippo.discounts.create(discount_percent: 10, minimum_quantity: 1)
+      @cart.contents[@hippo.id.to_s] = 1
+      expect(@cart.grand_total).to eq(165)
+    end
+
     it '.count_of()' do
       expect(@cart.count_of(@ogre.id)).to eq(1)
       expect(@cart.count_of(@giant.id)).to eq(2)

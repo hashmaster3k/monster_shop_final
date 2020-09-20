@@ -36,14 +36,14 @@ class Item < ApplicationRecord
   end
 
   def display_subtotal_with_discount(quantity, price)
-    ((price - (price * (applicable_discount(quantity).discount_percent / 100))) * quantity)
-  end
-
-  def applicable_discount(quantity)
-    discounts.where("minimum_quantity <= #{quantity}").order(minimum_quantity: :desc).first
+    price_adjusted(quantity) * quantity
   end
 
   def price_adjusted(quantity)
     price - ((applicable_discount(quantity).discount_percent / 100) * price)
+  end
+
+  def applicable_discount(quantity)
+    discounts.where("minimum_quantity <= #{quantity}").order(minimum_quantity: :desc).first
   end
 end
