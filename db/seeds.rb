@@ -14,6 +14,7 @@
 # brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
 
 User.destroy_all
+Discount.destroy_all
 Item.destroy_all
 Merchant.destroy_all
 
@@ -61,14 +62,23 @@ admin = User.create!(name: 'Billy Admin',
                       role: 2)
 
 #bike_shop items
-tire = bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-chain = bike_shop.items.create(name: "2 Chains", description: "A set of two chains", price: 50, image: "https://ae01.alicdn.com/kf/H8f6e71c582f6409ebf1374828507faefM.jpg", inventory: 6)
-pedal = bike_shop.items.create(name: "Pair-o-Pedals", description: "Sweet set of pedals", price: 25, image: "https://images-na.ssl-images-amazon.com/images/I/81dGmYwAimL._AC_SL1500_.jpg", inventory: 7)
+tire = bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 30)
+chain = bike_shop.items.create(name: "2 Chains", description: "A set of two chains", price: 50, image: "https://ae01.alicdn.com/kf/H8f6e71c582f6409ebf1374828507faefM.jpg", inventory: 25)
+pedal = bike_shop.items.create(name: "Pair-o-Pedals", description: "Sweet set of pedals", price: 25, image: "https://images-na.ssl-images-amazon.com/images/I/81dGmYwAimL._AC_SL1500_.jpg", inventory: 15)
 handle_bar = bike_shop.items.create(name: "Handle Bar", description: "Best Handles on earth", price: 25, image: "https://i0.wp.com/rinascltabike.com/wp-content/uploads/2019/04/Rinasclta-integrated-carbon-handlebar.jpg", inventory: 2)
 
 #dog_shop items
 pull_toy = dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
 dog_bone = dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active: false, inventory: 21)
-donut = dog_shop.items.create(name: "Donut Squeaker", description: "Mmmmm donuts", price: 8, image: "https://ae01.alicdn.com/kf/HTB1AivzXkT2gK0jSZFkq6AIQFXaz.jpg", inventory: 12)
+donut = dog_shop.items.create(name: "Donut Squeaker", description: "Mmmmm donuts", price: 8, image: "https://ae01.alicdn.com/kf/HTB1AivzXkT2gK0jSZFkq6AIQFXaz.jpg", inventory: 90)
 ball = dog_shop.items.create(name: "Chuck It Ball", description: "Indestructable", price: 4, image: "https://img.chewy.com/is/image/catalog/64771_MAIN._AC_SL400_V1543519093_.jpg", inventory: 20)
 kong = dog_shop.items.create(name: "Kong", description: "Keep your dog busy for hours", price: 3, image: "https://images-na.ssl-images-amazon.com/images/I/719dcnCnHfL._AC_SL1500_.jpg", inventory: 18)
+
+#bike_shop discounts
+tire.discounts.create(discount_percent: 5, minimum_quantity: 2)
+tire.discounts.create(discount_percent: 10, minimum_quantity: 4)
+pedal.discounts.create(discount_percent: 7, minimum_quantity: 3)
+
+#bike_shop discounts
+ball.discounts.create(discount_percent: 10, minimum_quantity: 5)
+donut.discounts.create(discount_percent: 15, minimum_quantity: 20)
