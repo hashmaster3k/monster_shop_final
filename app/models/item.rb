@@ -35,7 +35,7 @@ class Item < ApplicationRecord
     discounts.where("#{quantity} >= minimum_quantity").length > 0
   end
 
-  def display_subtotal_with_discount(quantity, price)
+  def display_subtotal_with_discount(quantity)
     price_adjusted(quantity) * quantity
   end
 

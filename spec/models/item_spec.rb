@@ -41,7 +41,7 @@ RSpec.describe Item do
 
     it '.display_subtotal_with_discount' do
       @ogre.discounts.create(discount_percent: 5, minimum_quantity: 2)
-      expect(@ogre.display_subtotal_with_discount(2, @ogre.price)).to eq(38.0)
+      expect(@ogre.display_subtotal_with_discount(2)).to eq(38.0)
     end
 
     it '.applicable_discount' do
