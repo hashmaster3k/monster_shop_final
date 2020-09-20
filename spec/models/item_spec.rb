@@ -39,17 +39,17 @@ RSpec.describe Item do
       expect(@ogre.average_rating.round(2)).to eq(3.00)
     end
 
-    it '.display_subtotal_with_discount' do
+    it '.display_subtotal_with_discount()' do
       @ogre.discounts.create(discount_percent: 5, minimum_quantity: 2)
       expect(@ogre.display_subtotal_with_discount(2)).to eq(38.0)
     end
 
-    it '.applicable_discount' do
+    it '.applicable_discount()' do
       discount = @ogre.discounts.create(discount_percent: 5, minimum_quantity: 2)
       expect(@ogre.applicable_discount(2)).to eq(discount)
     end
 
-    it '.price_adjusted' do
+    it '.price_adjusted()' do
       @ogre.discounts.create(discount_percent: 5, minimum_quantity: 2)
       expect(@ogre.price_adjusted(2)).to eq(19.0)
     end
